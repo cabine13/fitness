@@ -1,3 +1,52 @@
-<p>
-  signup works!
-</p>
+<h2 align="center">Créer un compte</h2>
+<section class="signup-form">
+  <form fxLayout="column" 
+    fxLayoutAlign="center center" 
+    #f="ngForm" 
+    (ngSubmit)="onSubmit(f)"
+    fxLayoutGap="10px">
+    <mat-form-field>
+      <input 
+        matInput type="email" 
+        placeholder="email" 
+        ngModel name="email" 
+        email 
+        required
+        #emailInput="ngModel">
+      <mat-error *ngIf="emailInput.hasError('required')">Ce champ ne peut pas être vide</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">Email invalide</mat-error>
+    </mat-form-field>
+    <mat-form-field hintLabel="Doit avoir au moins 6 caractères">
+      <input 
+        matInput type="password" 
+        placeholder="password" 
+        ngModel 
+        name="password" 
+        required 
+        minlength="6"
+        #pwInput="ngModel">
+      <mat-hint align="end">{{pwInput.value?.length}} /6</mat-hint>
+      <mat-error>Mot de passe trop court</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input 
+        matInput 
+        placeholder="Date de naissance" 
+        [matDatepicker]="picker"
+        [max]="maxDate"
+        ngModel
+        name="birthDate"
+        required>
+      <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+      <mat-checkbox 
+        required 
+        ngModel 
+        name="agree" 
+        labelPosition="before"
+        color="primary">
+        J'accepte les conditions générales</mat-checkbox>
+    <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Envoyer</button>
+  </form>
+</section>
